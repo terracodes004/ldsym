@@ -14,15 +14,23 @@ def index(request):
             send_mail("I HAVE A QUESTION FOR YOU", request.POST['message'], request.POST['email'], 'davidowolabi252@gmail.com')
             didit = 1
             did = 1
-            return render(request, "index.html", {"didit": didit, "did": did})
         except:
             didit = 1
             did = 0
-            return render(request, "index.html", {"didit": didit, "did": did})
     else:
         did = 1
         didit = 0
-        return render(request, "index.html", {"didit": didit, "did": did})
+    postt = []
+    nn = 0
+    bb = []
+    for dr in Udetails.objects.all():
+        bb.append(dr)
+    for xx in Post.objects.all():
+        if nn < 3 and xx.a_approval:
+            postt.append(xx)
+        nn += 1
+    postt.reverse()
+    return render(request, "index.html", {"didit": didit, "did": did, "postt" : postt,'dr':bb})
 
 def about(response):
     return render(response, "about.html")
@@ -32,7 +40,17 @@ def blogh(response):
     for x  in News.objects.all():
         news.append(x)
     news.reverse()
-    return render(response, "blog-home.html", {'news':news})
+    postt = []
+    nn = 0
+    for xx in Post.objects.all():
+        if nn < 3 and xx.a_approval:
+            postt.append(xx)
+        nn += 1
+    postt.reverse()
+    bb = []
+    for dr in Udetails.objects.all():
+        bb.append(dr)
+    return render(response, "blog-home.html", {'news':news, 'postt': postt,'dr':bb})
 
 def blogp(response):
     if response.method == "POST":
@@ -52,11 +70,28 @@ def blogp(response):
             auth.login(response, user)
             return redirect('blog-post.html')
     else:
-        return render(response, "blog-post.html")
+        ud = []
+        for gg in Udetails.objects.all():
+            if gg.user == response.user.username:
+                ud.append(gg)
+        
+        if Udetails.objects.filter(user=response.user.username):
+            dd = True
+        else:
+            dd = False
+        bb = []
+        comment = []
+        for xx in Comments.objects.all():
+            if xx.data == 'bp' and xx.name == response.user.username:
+                comment.append(xx)
+        comment.reverse()
+        for dr in Post.objects.all():
+            if dr.username == response.user.username:
+                bb.append(dr)
+        return render(response, "blog-post.html", {"ud":ud, "dd":dd,'news':bb, 'com': comment})
 
 def contact(response):
     return render(response, "contact.html")
-
 def faq(response):
     faq = []
     for q in Faq.objects.all():
@@ -116,7 +151,33 @@ def ask(request, typ):
             return render(request, 'ask.html')
     
     elif typ == 'post':
-        return render(request, 'post.html')
+        if request.method == 'POST':
+            username = request.user.username
+            likes = 0
+            hates = 0
+            comment = ""
+            a_approval = 0
+            title = request.POST['title']
+            description = request.POST['des']
+            file = request.FILES.get('file', None)
+            if file:
+                fs = FileSystemStorage()
+                filename = fs.save(file.name, file)
+                pos = Post(username=username, likes=likes, hate=hates, comment=comment, a_approval=a_approval, title=title, description=description, photos=filename)
+            else:
+                pos = Post(username=username, likes=likes, hate=hates, comment=comment, a_approval=a_approval, title=title, description=description)
+            bad = ['fuck','ass', 'nigga', 'bitch', 'shit']
+            for b in bad:
+                if b in description:
+                    good = False
+                else:
+                    good = True
+            if good:
+                pos.save()
+            return redirect('/index.html')
+        else:
+
+            return render(request, 'post.html')
     
     elif typ == 'faq':
         if request.method == 'POST':
@@ -126,9 +187,32 @@ def ask(request, typ):
             comm = Comments(name=name, comment=content, data="faq", post_id=post_id)
             comm.save()
             return redirect('faq')
+    elif typ == 'bp':
+        if request.method == 'POST':
+            name = request.POST['name']
+            content = request.POST['content']
+            post_id = request.POST.get('id', None)  # Use get to avoid KeyError
+            comm = Comments(name=name, comment=content, data="bp", post_id=post_id)
+            comm.save()
+            return redirect('/blog-post.html')
         else:
             return render(request, 'faq.html')
-    
+    elif typ=="details":
+        if request.method == 'POST':
+            user = request.user.username
+            des = request.POST['des']
+            tags = request.POST['tags']
+            file = request.FILES.get('file', None)
+            if file:
+                fs = FileSystemStorage()
+                filename = fs.save(file.name, file)
+                uu = Udetails(user=user, des=des, tags=tags, profile=filename, an_lds_ym=0)
+            else:
+                uu = Udetails(user=user, des=des, tags=tags, an_lds_ym=0)
+            uu.save()
+            return redirect('blog-post')
+        return render(request, 'details.html')
+        
     else:
         return render(request, 'ask.html')
 
@@ -147,3 +231,95 @@ def post(request, num):
         'neww' : neww
     }
     return render(request, 'pos.html', varis)
+def full(request):
+    postt = []
+    for xx in Post.objects.all():
+        postt.append(xx)
+    bb = []
+    for dr in Udetails.objects.all():
+        bb.append(dr)
+    postt.reverse()
+    return render(request, 'full.html', {'postt': postt,'dr':bb})
+def fulll(request, pk):
+    postt = []
+    for dd in Post.objects.all():
+        if dd.id == int(pk):
+            postt.append(dd)
+            
+    ggg = f'{postt[0].description}'
+    ggg = ggg.replace('\n', '<br/>')
+    neww = ggg
+    bb = []
+    varis = {
+        'no' : pk,
+        'news' : postt,
+        'neww' : neww,
+        'dr':bb
+    }
+    
+    for dr in Udetails.objects.all():
+        bb.append(dr)
+    
+    return render(request, 'fulll.html', varis)
+def uuser(request, username):
+    use = []
+    ud = []
+    for gg in Udetails.objects.all():
+        if gg.user == username:
+            ud.append(gg)
+    
+    if Udetails.objects.filter(user=username):
+        dd = True
+    else:
+        dd = False
+    bb = []
+    comment = []
+    for xx in Comments.objects.all():
+        if xx.data == 'bp' and xx.name == username:
+            comment.append(xx)
+    comment.reverse()
+    for dr in Post.objects.all():
+        if dr.username == username:
+            bb.append(dr)
+    
+    
+    return render(request, 'uuser.html',{'use':use,"ud":ud, "dd":dd,'news':bb, 'com': comment})
+def search(request, type, look):
+    user_search = []
+    uuse = []
+    post_search = []
+    faq_search = []
+
+    for i in User.objects.all():
+        if f'{look}'.lower() in f'{i.username}'.lower() or f'{look}'.lower() == f'{i.username}'.lower():
+            user_search.append(i)
+            for ff in Udetails.objects.all():
+                if ff.user == i.username:
+                    uuse.append(ff)
+        else:
+            pass
+    for i in Faq.objects.all():
+        if f'{look}'.lower() in f'{i.title}'.lower() or f'{look}'.lower() in f'{i.name}'.lower():
+            faq_search.append(i)
+        else:
+            pass
+    for i in Post.objects.all():
+        if f'{look}'.lower() in f'{i.title}'.lower() or look in f'{i.username}'.lower() :
+            post_search.append(i)
+        else:
+            pass
+    post_search.reverse()
+    user_search.reverse()
+    uuse.reverse()
+    faq_search.reverse()
+    varr = {
+        'use' : user_search,
+        'usee' : uuse,
+        'post' : post_search,
+        'faq' : faq_search,
+        'typ' : type,
+        'sea' : look
+    }
+    return render(request, "search.html", varr)
+def see(request):
+    return redirect(f"/search/{request.GET['search']}/all")

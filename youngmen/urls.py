@@ -10,10 +10,15 @@ urlpatterns = [
     path('contact.html', contact, name='contact'),
     path('faq.html', faq, name='faq'),  # Ensure this line has the correct name
     path('portfolio-item.html', pi, name='portfolio-item'),
-    path('portfolio-overview', po, name='portfolio-overview'),
+    path('portfolio-overview.html', po, name='portfolio-overview'),
     path("logout", lo, name='logout'),
     path("login", li, name='login'),
     path('form/<str:typ>', ask, name='ask'),
+    path("full", full),
+    path("full/<str:pk>", fulll),
+    path("search/<str:look>/<str:type>", search),
+    path("see", see),
+    path("user/<str:username>", uuser),
     path('post/<int:num>', post)
 ]
 

@@ -60,9 +60,10 @@
                         <div class="col-xl-8">
                             <!-- FAQ Accordion 1-->
                             <h2 class="fw-bolder mb-3">{{fqw.title}}</h2>
+                            <img src="/media/{{fqw.file}}" width="50"alt="" style="border-radius: 50px;">
                             <div class="accordion mb-5" id="accordionExample">
                                 <div class="accordion-item">
-                                    <h3 class="accordion-header" id="headingOne"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">{{fqw.quesiion}}</button></h3>
+                                    <h3 class="accordion-header" id="headingOne"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">{{fqw.question}}</button></h3>
                                     <div class="accordion-collapse collapse show" id="collapseOne" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                         <div class="accordion-body">
                                             <strong><details>
@@ -85,6 +86,7 @@
                                                 <fieldset>
                                                     {% if xy.post_id == fqw.id %}
                                                     <ol>
+                                                        
 
                                                     <li>{{xy.name}}</li>
                                                     <p>
@@ -100,7 +102,6 @@
                                             {% endfor %}
                                         </strong>
                                         </div>
-                                        <img src="/media/{{fqw.file}}" width="50"alt="">
                                     </div>
                                 </div>
                             </div>

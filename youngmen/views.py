@@ -25,7 +25,7 @@ def index(request):
     bb = []
     for dr in Udetails.objects.all():
         bb.append(dr)
-    for xx in Post.objects.all():
+    for xx in Post.objects.all().reverse():
         if nn < 3 and xx.a_approval:
             postt.append(xx)
         nn += 1
@@ -88,6 +88,7 @@ def blogp(response):
         for dr in Post.objects.all():
             if dr.username == response.user.username:
                 bb.append(dr)
+        bb.reverse()
         return render(response, "blog-post.html", {"ud":ud, "dd":dd,'news':bb, 'com': comment})
 
 def contact(response):

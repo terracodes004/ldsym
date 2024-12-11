@@ -47,14 +47,15 @@
                 </div>
             </nav>
             <section style="text-align: center;">
-                {% for drf in dr %}
+                
                                               
-                                            
-                                              {% if drf.user == xx.username %}
-                                              <img class="rounded-circle me-3" src="/media/{{drf.profile}}" width="50",  alt="..." />
-                                              {% endif %}
-                {% endfor %}
+                                                            
+                
                 {% for news in news %}
+                {% for drf in dr %}
+                 {% if drf.user == news.username %}
+                                              <a href="/user/{{news.username}}"><img class="rounded-circle me-3" src="/media/{{drf.profile}}" width="50",  alt="..." />{{news.username}}
+                                              {% endif %}</a>{% endfor %}
                 <h1>{{news.title}}</h1>
                 <small>{{news.date}}</small>
                 <div id="go">

@@ -98,14 +98,14 @@
                     <div class="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
                         <div class="col mb-5 mb-5 mb-xl-0">
                             <div class="text-center">
-                                <img class="img-fluid rounded-circle mb-4 px-4" src="https://dummyimage.com/150x150/ced4da/6c757d" alt="..." />
+                                <img class="img-fluid rounded-circle mb-4 px-4" src="/static/assets/bisho.jpg" alt="..." />
                                 <h5 class="fw-bolder">Bishop Umoh</h5>
                                 <div class="fst-italic text-muted">President of the young men</div>
                             </div>
                         </div>
                         <div class="col mb-5 mb-5 mb-xl-0">
                             <div class="text-center">
-                                <img class="img-fluid rounded-circle mb-4 px-4" src="https://dummyimage.com/150x150/ced4da/6c757d" alt="..." />
+                                <img class="img-fluid rounded-circle mb-4 px-4" src="/static/assets/david.jpg" alt="..." />
                                 <h5 class="fw-bolder">Owolabi David </h5>
                                 <div class="fst-italic text-muted">2nd Counsellor of the Priest quroem</div>
                             </div>
@@ -119,7 +119,7 @@
                         </div>
                         <div class="col mb-5">
                             <div class="text-center">
-                                <img class="img-fluid rounded-circle mb-4 px-4" src="https://dummyimage.com/150x150/ced4da/6c757d" alt="..." />
+                                <img class="img-fluid rounded-circle mb-4 px-4" src="/static/assets/jame.jpg" alt="..." />
                                 <h5 class="fw-bolder">Orobosa James</h5>
                                 <div class="fst-italic text-muted">Manager</div>
                             </div>
@@ -150,7 +150,7 @@
         <script>
             let i = 0
              function move() { 
-                 imgs = [,"url('static/assets/ymp.jpeg')","url('static/assets/more_ym.jpeg')","url('/static/assets/ldsym.jpg')","url('static/assets/presido.jpeg')",'']
+                 imgs = [,"url('static/assets/ymp.jpeg')","url('static/assets/lds.jpeg')","url('static/assets/bisho.jpg')","url('static/assets/jame.jpg')",,"url('static/assets/more_ym.jpeg')", "url('static/assets/slide/Mormon-book.jpg')","url('/static/assets/ldsym.jpg')","url('static/assets/dac.jpeg')","url('static/assets/presido.jpeg')" ,"url('static/assets/dac.jpeg')","url('static/assets/scr.jpeg')","url('static/assets/js.jpeg')"]
                  //,"url('static/assets/slide/presido.jpg')""url('static/assets/slide/more_ym.jpg')"
                  console.log(imgs[i])
                  document.querySelector('header').style.backgroundImage = imgs[i] 
@@ -160,7 +160,7 @@
                      console.log("It worked"+i)
                  }, 3000);
                  i += 1
-                 if(i > 4){
+                 if(i > 14){
                      i = 0
                  }
                  if (imgs[i] == "url('static/assets/presido.jpeg')") {

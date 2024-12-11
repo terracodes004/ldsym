@@ -251,6 +251,8 @@ def fulll(request, pk):
     ggg = ggg.replace('\n', '<br/>')
     neww = ggg
     bb = []
+    for dr in Udetails.objects.all():
+        bb.append(dr)
     varis = {
         'no' : pk,
         'news' : postt,
@@ -258,8 +260,6 @@ def fulll(request, pk):
         'dr':bb
     }
     
-    for dr in Udetails.objects.all():
-        bb.append(dr)
     
     return render(request, 'fulll.html', varis)
 def uuser(request, username):

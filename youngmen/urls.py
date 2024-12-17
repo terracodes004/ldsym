@@ -19,6 +19,8 @@ urlpatterns = [
     path("search/<str:look>/<str:type>", search),
     path("see", see),
     path("user/<str:username>", uuser),
+    path("forget.html", forr),
+    path("change/<str:email>", cha),
     path('post/<int:num>', post)
 ]
 

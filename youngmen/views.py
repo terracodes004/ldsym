@@ -6,12 +6,13 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from .models import *
-
+from random import randint
 # Create your views here.
 def index(request):
     if request.method == "POST":
         try:
-            send_mail("I HAVE A QUESTION FOR YOU", request.POST['message'], request.POST['email'], 'davidowolabi252@gmail.com')
+            
+            send_mail("I HAVE A QUESTION FOR YOU", request.POST['message'],'davidowolabi252@gmail.com' , request.POST['email'])
             didit = 1
             did = 1
         except:
@@ -57,6 +58,7 @@ def blogp(response):
         username = response.POST['username']
         email = response.POST['email']
         password = response.POST['password']
+        num = response.POST['num']
         if User.objects.filter(username=username).exists():
             messages.add_message(response, messages.ERROR, "Username already exists.")
             return render(response, "blog-post.html")
@@ -66,6 +68,7 @@ def blogp(response):
         else:
             messages.add_message(response, messages.INFO, "SIGNED UP DONE")
             user = User.objects.create_user(username=username, email=email, password=password)
+            user.last_name = num
             user.save()
             auth.login(response, user)
             return redirect('blog-post.html')
@@ -324,3 +327,21 @@ def search(request, type, look):
     return render(request, "search.html", varr)
 def see(request):
     return redirect(f"/search/{request.GET['search']}/all")
+def forr(request):
+    ff = []
+    email = request.POST['email']
+    for hh in User.objects.all():
+        if hh.email == email:
+            ff.append(hh)
+    numcode = f'{randint(0, 9)}{randint(0, 9)}{randint(0, 9)}{randint(0, 9)}{randint(0, 9)}'
+    try:
+        send_mail("Verification code for an lds Young man", numcode, "kehindeowolabi004@gmail.com", [email])
+        return render(request, "forgot.html", {"num" : int(numcode), "use":ff, 'em':email})
+    except:
+        return redirect("/login")
+    
+def cha(request, email):
+    dd = User.objects.get(email=email)
+    dd.set_password(request.POST['pass'])
+    dd.save()
+    return redirect("/blog-post.html")

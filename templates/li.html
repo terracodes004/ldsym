@@ -47,7 +47,7 @@ div {
         {% endfor %}
         <label for="username">Username</label>
         <input type="text" name="username">
-
+        
         <label for="password">Password</label>
         <input type="password"  name="password">
         <input type="submit" value="Submit">
@@ -55,7 +55,18 @@ div {
     </form>
     <div class="go" style="text-align: center;">
                 or <br>
-                <a href="login">login</a>
+                <a href="/blog-post.html">Sign Up</a>
+                <hr>
+                <fieldset><legend>Have you forgoten your password</legend>
+                    <details><summary>Data</summary>
+                <form action="forget.html" method="post">
+                    {% csrf_token %}
+                    <label for="username">Email</label>
+        <input type="email" name="email">
+                    <p>
+                        <input type="submit" value="Find">
+                    </p>
+                </form></details></fieldset>
             </div>
 </body>
 </html>

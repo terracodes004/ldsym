@@ -113,18 +113,15 @@
                                     <li><a class="dropdown-item" href="blog-post.html">Blog Post</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="/static/#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Portfolio</a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
-                                    <li><a class="dropdown-item" href="portfolio-overview.html">Portfolio Overview</a></li>
-                                    <li><a class="dropdown-item" href="portfolio-item.html">Portfolio Item</a></li>
 
-                                </ul>
-                            </li>
+                            {% if user.is_authenticated %}
+                              
+                            
                             {% if dd %}
                               <li class="nav-item"><a class="nav-link" href="">Edit</a></li>
                             {% else %}
                             <li class="nav-item"><a class="nav-link" href="form/details">+</a></li>
+                            {% endif %}
                             {% endif %}
                             <li>
                                 <form action="/see" method="get">
@@ -140,10 +137,11 @@
             
             <section class="py-5">
                 {% if user.is_authenticated %}
+                <button><a href="/logout">LOG OUT</a></button>
                   {% for ud in ud %}
                     {{ud.user}}
                   
-                <button><a href="/logout">LOG OUT</a></button>
+                
                 <div class="container px-5 my-5">
                     <div class="row gx-5">
                         <div class="col-lg-3">
@@ -264,6 +262,9 @@
                 {% csrf_token %}
             <p>
             <input type="text" value="Username" name="username" required>
+            </p>
+            <p>
+                <input type="number" name="num" id="" placeholder="Phone Number" required>
             </p>
             <p>
             <input type="email" value="Email" name="email" required>

@@ -65,9 +65,11 @@
                                                 </summary>
                                                 <form action="/form/faq" method="post">
                                                     {% csrf_token %}
-                                                    <p>
-                                                        <b>Name</b><input type="text" name="name">
-                                                    </p>
+                                                    {% if user.is_authenticated %}
+                                                <b>Name</b><input type="text" name="name" readonly value="{{user.username}}">
+                                                {% else %}
+                                                <b>Name</b><input type="text" name="name">
+                                                {% endif %}
                                                     <input type="text" name="id" value="{{fqw.id}}" readonly>
                                                     <p>
                                                         <textarea name="content" id="" cols="30"></textarea> <button type="submit">Sumbit</button>

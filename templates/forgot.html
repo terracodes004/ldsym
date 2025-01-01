@@ -1,7 +1,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
     input[type=text], input[type=password] {
-    width: 100%;
+    width: 57%;
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
@@ -9,7 +9,11 @@
     border-radius: 4px;
     box-sizing: border-box;
 }
-
+button{
+    border: none;
+    background-color: #45a04900;
+    vertical-align: bottom;
+}
 input[type=submit] {
     width: 100%;
     background-color: #4CAF50;
@@ -40,6 +44,7 @@ div, form{
     
     if(document.getElementById("num").value == document.getElementById("gg").innerHTML){
         document.getElementById("nn").style.visibility = "visible"
+        
     } else{
         alert("WRONG CODE!!!")
     }
@@ -47,9 +52,12 @@ div, form{
 function see(id){
     if(document.getElementById(id).type == "password"){
         document.getElementById(id).type = "text"
+        document.querySelector("img").src="static\\assets\\eye1.jpeg"
     }
     else{
         document.getElementById(id).type = "password"
+        document.querySelector("img").src="static\\assets\\eye2.png"
+
     }
 
 }
@@ -61,8 +69,8 @@ function see(id){
     {% csrf_token %}
     {% for g in use %}
       {{g}}
-      <input type="password" name="pass" placeholder="New password" id="gt">  <br>
+      <input type="password" name="pass" placeholder="New password" id="gt"><button type="button" onclick="see('gt')"><img src="static/assets/eye2.png" width="50" style="border-radius: 50px;"></button>  <br>
       <input type="submit" value="Change">
 
     {% endfor %}
-</form><button onclick="see('gt')">see</button>
+</form>

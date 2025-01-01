@@ -107,7 +107,7 @@
                 <form action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <p>
-                        <input type="text" placeholder="Your name" name="name" required>
+                        <input type="text" placeholder="Your name" name="name" value="{{user.username}}" required>
                     </p>
                     <p>
                         <input type="text" placeholder="Title" name="title" required>
@@ -117,7 +117,7 @@
                     </p>
                     <details>
                         <summary>Add File</summary>
-                        <input type="file" name="file">
+                        <input type="file" name="file" file=".jpeg, .jpg, .png, .tiff, .bmg, .gif">
                     </details>
                     <button type="submit" accesskey="h">ASK</button>
                 </form>

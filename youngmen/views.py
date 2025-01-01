@@ -8,19 +8,25 @@ from django.core.files.storage import FileSystemStorage
 from .models import *
 from random import randint
 # Create your views here.
+from django.core.mail import send_mail
+from django.conf import settings
+from django.shortcuts import render
+from .models import Udetails, Post
+
 def index(request):
     if request.method == "POST":
         try:
-            
-            send_mail("I HAVE A QUESTION FOR YOU", request.POST['message'],'davidowolabi252@gmail.com' , request.POST['email'])
+            send_mail("I HAVE A QUESTION FOR YOU", request.POST['message'], request.POST['email'],['kehinde0w0labi004@gmail.com'] )
             didit = 1
             did = 1
-        except:
+        except Exception as e:
+            print(f"Error sending email: {e}")
             didit = 1
             did = 0
     else:
         did = 1
         didit = 0
+
     postt = []
     nn = 0
     bb = []
@@ -31,7 +37,8 @@ def index(request):
             postt.append(xx)
         nn += 1
     postt.reverse()
-    return render(request, "index.html", {"didit": didit, "did": did, "postt" : postt,'dr':bb})
+    
+    return render(request, "index.html", {"didit": didit, "did": did, "postt": postt, 'dr': bb})
 
 def about(response):
     return render(response, "about.html")
@@ -85,7 +92,7 @@ def blogp(response):
         bb = []
         comment = []
         for xx in Comments.objects.all():
-            if xx.data == 'bp' and xx.name == response.user.username:
+            if xx.data == 'bp' and xx.toname == response.user.username:
                 comment.append(xx)
         comment.reverse()
         for dr in Post.objects.all():
@@ -95,6 +102,17 @@ def blogp(response):
         return render(response, "blog-post.html", {"ud":ud, "dd":dd,'news':bb, 'com': comment})
 
 def contact(response):
+    if response.method == "POST":
+        name = response.POST['name']
+        email = response.POST['email']
+        phone = response.POST['phone']
+        message = response.POST['message']
+        try:
+            send_mail("I HAVE A QUESTION FOR YOU", f"Name : {name}\n Phone : {phone} \n {message}", email,['kehinde0w0labi004@gmail.com'] )
+            messages.add_message(response, messages.INFO, "SENT SUCCESSFUL")
+        except Exception as e:
+            print(f"Error sending email: {e}")
+            messages.add_message(response, messages.ERROR, f"Error occur {e}")
     return render(response, "contact.html")
 def faq(response):
     faq = []
@@ -196,9 +214,18 @@ def ask(request, typ):
             name = request.POST['name']
             content = request.POST['content']
             post_id = request.POST.get('id', None)  # Use get to avoid KeyError
-            comm = Comments(name=name, comment=content, data="bp", post_id=post_id)
+            comm = Comments(name=name,toname=request.user.username, comment=content, data="bp", post_id=post_id)
             comm.save()
             return redirect('/blog-post.html')
+    elif typ == 'use':
+        if request.method == 'POST':
+            ty = request.POST['to']
+            name = request.POST['name']
+            content = request.POST['content']
+            post_id = request.POST.get('id', None)  # Use get to avoid KeyError
+            comm = Comments(name=name,toname=ty, comment=content, data="bp", post_id=post_id)
+            comm.save()
+            return redirect(f'/user/{ty}')
         else:
             return render(request, 'faq.html')
     elif typ=="details":
@@ -272,14 +299,15 @@ def uuser(request, username):
         if gg.user == username:
             ud.append(gg)
     
-    if Udetails.objects.filter(user=username):
+    if Udetails.objects.get(user=username):
         dd = True
     else:
         dd = False
     bb = []
     comment = []
+
     for xx in Comments.objects.all():
-        if xx.data == 'bp' and xx.name == username:
+        if xx.data == 'bp' and xx.toname == username:
             comment.append(xx)
     comment.reverse()
     for dr in Post.objects.all():
@@ -287,7 +315,7 @@ def uuser(request, username):
             bb.append(dr)
     
     
-    return render(request, 'uuser.html',{'use':use,"ud":ud, "dd":dd,'news':bb, 'com': comment})
+    return render(request, 'uuser.html',{'use':use,"ud":ud,"usee":username, "dd":dd,'news':bb, 'com': comment, "ff": User.objects.get(username=username).last_name})
 def search(request, type, look):
     user_search = []
     uuse = []
@@ -337,7 +365,8 @@ def forr(request):
     try:
         send_mail("Verification code for an lds Young man", numcode, "kehindeowolabi004@gmail.com", [email])
         return render(request, "forgot.html", {"num" : int(numcode), "use":ff, 'em':email})
-    except:
+    except Exception as e:
+        print(f'Error sending the mail {e}')
         return redirect("/login")
     
 def cha(request, email):

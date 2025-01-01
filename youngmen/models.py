@@ -32,6 +32,7 @@ class News(models.Model):
     content = models.TextField()
 
 class Comments(models.Model):
+    toname = models.CharField(max_length=500, blank=True)
     name = models.CharField(max_length=500)
     date = models.DateTimeField(auto_now=True)
     comment = models.TextField()

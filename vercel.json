@@ -19,6 +19,6 @@
     "EMAIL_HOST_PASSWORD": "@EMAIL_HOST_PASSWORD"
   },
   "hooks": {
-    "post-build": "python manage.py migrate"
+    "post-build": "python manage.py migrate && python manage.py collectstatic --noinput"
   }
 }

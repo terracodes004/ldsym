@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User details</title>
+    <meta name="description" content="Add user details to ldsym account">
+    <style>
+        #body{
+	background-color:rgb(0, 102, 102);
+	color: white;
+}
+.anot{
+	display:grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	b{
+		vertical-align: baseline;
+	}
+}
+.ano{
+	height:600px;
+	overflow-y:auto;
+}
+#head > h1{
+	display:inline-block;
+	margin:0;
+}
+#head{
+	border-bottom-style: ridge;
+	border-bottom-color: yellow;
+}
+main{
+	display:grid;
+	grid-template-columns: 50% 1fr;
+}
+@media screen and (max-width: 480px){
+	main{
+		display:block;
+	}
+	.container{
+		margin-right:0;
+		input{
+			padding:0;
+		}
+		button{
+			padding:o;
+		}
+	}
+}
+.container{
+	text-align: center;
+	margin-right: 3cm;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	border-style:none;
+	padding: 1cm;
+	background-color:rgb(241, 241, 244);
+	color: black;
+	input[type="file"]{
+		width: 100%;
+		padding: 12px 20px;
+		margin: 8px 0;
+		box-sizing: border-box;
+		font-family: "Lucida Console", Monaco, monospace;
+		font-size:5mm;
+		height:2cm;
+		
+	}
+	button[type="submit"]{
+		display:block;
+		text-align:center;
+		width:100%;
+		margin: 5mm;
+		padding:3mm;
+		background: -webkit-linear-gradient(right, rgb(0, 204, 122), rgb(77, 255, 184)); /* For Safari 5.1 to 6.0 */
+		background: -o-linear-gradient(right, rgb(0, 204, 122), rgb(77, 255, 184)); /* For Opera 11.1 to 12.0 */
+		background: -moz-linear-gradient(right, rgb(0, 204, 122), rgb(77, 255, 184)); /* For Firefox 3.6 to 15 */
+		background: linear-gradient(right, rgb(0, 204, 122), rgb(77, 255, 184)); 
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		border-style:none;
+		font-size:7mm;
+		text-decoration:bold;
+		color:white;
+		transition: background 4s;
+		font-weight: 900;
+		letter-spacing:3px;
+		transition:font-size 1s, background 1s;
+	}
+	button[type="submit"]:hover{
+		font-size:8mm;
+		background: linear-gradient( rgb(77, 255, 184), rgb(0, 204, 122));
+		background: linear-gradient( rgb(77, 255, 184), rgb(0, 204, 122));
+		background: linear-gradient(rgb(77, 255, 184), rgb(0, 204, 122));
+		background: linear-gradient(rgb(77, 255, 184), rgb(0, 204, 122)); 
+	}
+	button:active{
+		background:green;
+	}
+}
+.container > h1{
+	font-size:23mm;
+	
+}
+    </style>
+</head>
+<body>
+    <form action="" method="post" enctype="multipart/form-data">
+        <h1>Be A Young man</h1>
+        {% csrf_token %}
+        <div class="container">
+        <p>
+            <input type="file" name="file">
+        </p>
+        <p>
+            <textarea name="des" style="width: 100%; height: 3cm;">Bio</textarea>
+        </p>
+        
+        <input type="checkbox" value="God" name="tags">God
+        <input type="checkbox" value="pristhood" name="tags">Pristhood
+        <input type="checkbox" value="LDS" name="tags">LDS
+
+        
+        <button type="submit">Add</button>
+    </div>
+    </form>
+</body>
+</html>

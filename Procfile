@@ -1,0 +1,1 @@
+web: gunicorn ldsym.wsgi --log-file

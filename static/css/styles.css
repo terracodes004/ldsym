@@ -304,7 +304,7 @@ figure {
 }
 
 img,
-svg {
+svg, iframe {
   vertical-align: middle;
 }
 

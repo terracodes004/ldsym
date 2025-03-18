@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-!jrb51=t)tx&#9x84tjtvc5*hmem(uu@l$^-c_2o#0ms9p=lkx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=True)
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
 # settings.py
 SECURE_CROSS_ORIGIN_OPENER_POLICY = None  # Temporarily disable for testing
 CSP_SCRIPT_SRC = ("'self'", "'unsafe-eval'")

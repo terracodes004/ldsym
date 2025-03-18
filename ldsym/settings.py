@@ -74,8 +74,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'ldsym.wsgi.application'
-
+# api/settings.py
+WSGI_APPLICATION = 'ldsym.wsgi.app'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
